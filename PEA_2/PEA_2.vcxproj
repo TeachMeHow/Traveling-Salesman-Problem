@@ -121,13 +121,18 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="performance.cpp" />
     <ClCompile Include="Solution.cpp" />
+    <ClCompile Include="StopCondition.cpp" />
+    <ClCompile Include="TestNeighborLocator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ATSP.h" />
     <ClInclude Include="ATSPSolver.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="NeighborLocator.h" />
     <ClInclude Include="Performance.h" />
     <ClInclude Include="Solution.h" />
+    <ClInclude Include="StopCondition.h" />
+    <ClInclude Include="TestNeighborLocator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

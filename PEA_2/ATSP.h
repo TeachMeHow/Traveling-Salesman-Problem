@@ -29,7 +29,7 @@ public:
 	// print part of the graph to console output
 	void print_data();
 	// get distance from vertice 'y' to 'x'
-	int get_distance(int y, int x);
+	int get_distance(int y, int x) const;
 	// get size of the problem - number of vertices
 	int get_size() const;
 };

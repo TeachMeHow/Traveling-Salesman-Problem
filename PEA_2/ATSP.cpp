@@ -145,11 +145,16 @@ void ATSP::print_data()
 	}
 }
 
-int ATSP::get_distance(int y, int x)
+int ATSP::get_distance(int y, int x) const
 {
 	if (y < 0 || y >= dimension || x < 0 || x >= dimension){
 		throw out_of_range("Index out of range, argument range is 0..." 
 			+ to_string(dimension - 1));
 	}
 	return matrix[y][x];
+}
+
+int ATSP::get_size() const
+{
+	return dimension;
 }
