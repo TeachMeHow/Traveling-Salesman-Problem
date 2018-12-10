@@ -7,6 +7,7 @@ class Solution
 private:
 	std::vector<int> path;
 public:
+	Solution();
 	// Creates solution with path
 	Solution(std::vector<int> path);
 	Solution(const Solution & obj);
@@ -20,6 +21,6 @@ public:
 	// set new solution path
 	void set_path(std::vector<int> path); 
 	// comparator
-	bool operator==(const Solution& rhs) const { return this->path == rhs.path; }
+	friend bool operator==(const Solution& lhs, const Solution& rhs){ return lhs.path == rhs.path; }
 };
 

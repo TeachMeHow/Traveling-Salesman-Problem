@@ -10,7 +10,14 @@ class ATSPSolver
 public:
 	ATSPSolver();
 	~ATSPSolver();
-	void tabu_search(ATSP& atsp, std::vector<int>& solution, NeighborLocator* locator);
+	Solution tabu_search(ATSP& atsp, 
+		Solution starting_solution,
+		NeighborLocator* locator, 
+		int tabu_list_size,
+		int neighborhood_size,
+		int ms_time_limit, 
+		int iteration_limit);
+	Solution greedy(ATSP& atsp);
 	//void simulated_anneal(ATSP& atsp, std::vector<int>& solution);
 };
 

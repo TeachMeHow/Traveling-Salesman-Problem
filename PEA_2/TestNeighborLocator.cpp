@@ -2,40 +2,49 @@
 
 std::list<Solution> TestNeighborLocator::getNeighbors(const Solution& solution, int n)
 {
-	std::vector<int> neighbor_path = solution.get_path();
-	std::list<Solution> solution_list = std::list<Solution>();
-	auto start = neighbor_path.begin() + 1;
-	const auto end = neighbor_path.end() - 1;
-	auto current = start + 1;
-	while (n > 0)
+	std::vector<int> path = solution.get_path(); 
+	std::vector<int>::iterator start;
+	std::vector<int>::iterator position;
+	std::list<Solution> neighbors;
+	if (1 + last_start < path.size() - 1)
 	{
-		// change node in solution
-		if (current == end)
-		{
-			if (start < end - 2)
-			{
-				++start;
-				current = start + 1;
-			}
-			// no more nodes to swap
-			else return std::list<Solution>();
-		}
-		// swap two elements
-		int buffer = *start;
-		*start = *current;
-		*current = buffer;
-
-		// create solution from path
-		Solution new_solution = Solution(neighbor_path);
-		// add solution to list
-		solution_list.push_back(new_solution);
-		// reverse swap and increment
-		buffer = *start;
-		*start = *current;
-		*current = buffer;
-		++current;
-		// decrement
-		--n;
+		start = path.begin() + 1 + last_start;
 	}
-	return solution_list;
+	else
+		start = path.begin() + 1;
+	
+	if (1 + last_start + next_swap >= path.size() - 1 )
+	{
+		next_swap = 0;
+	}
+	position = start + 1 + next_swap;
+
+	while (n-- > 0)
+	{
+		next_swap++;
+		//swap start, position
+		int buffer = *start;
+		*start = *position;
+		*position = buffer;
+
+		neighbors.emplace_back(Solution(path));
+
+		buffer = *start;
+		*start = *position;
+		*position = buffer;
+
+		// if position is last element, return to incremented start
+		if (position++ == path.end() - 1)
+		{
+			last_start++;
+			if (start++ == path.end() - 2)
+				start = path.begin();
+			position = start + 1;
+			next_swap = 1;
+		}
+		
+	}
+
+
+	return neighbors;
 }

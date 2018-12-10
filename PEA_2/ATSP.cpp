@@ -158,3 +158,8 @@ int ATSP::get_size() const
 {
 	return dimension;
 }
+
+std::vector<std::vector<int>> ATSP::get_matrix()const
+{
+	return matrix;
+}

@@ -32,5 +32,6 @@ public:
 	int get_distance(int y, int x) const;
 	// get size of the problem - number of vertices
 	int get_size() const;
+	std::vector<std::vector<int>> get_matrix() const;
 };
 

@@ -5,6 +5,11 @@
 
 
 
+Solution::Solution()
+{
+	path = std::vector<int>();
+}
+
 Solution::Solution(std::vector<int> path)
 {
 	this->path = path;
