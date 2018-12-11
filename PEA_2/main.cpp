@@ -1,13 +1,15 @@
 #include "Menu.h"
 #include "ATSP.h"
-#include "TestNeighborLocator.h"
+#include "KSwap.h"
 #include "BestNeighborFinder.h"
 #include "Solution.h"
 #include "ATSPSolver.h"
 #include "Performance.h"
+#include "StopCondition.h"
 #include <iostream>;
 #include <vector>
 #include <iomanip>
+#include <algorithm>
 
 
 
@@ -35,59 +37,72 @@ int main() {
 	//	std::cout << "\n\n";
 	//}
 
+	// initialize the problem
 	ATSP problem;
 	problem.read_file("ftv47.atsp");
-	ATSPSolver solver;
-	// initial solution
-	std::vector<int> path;
-	for (int i = 0; i < 48; i++)
+	int candence = 10, neighborhood_size = 10, best_value_overall = INT_MAX;
+	int best_candence = INT_MAX;
+	int best_neighborhood_size = INT_MAX;
+	for (int ia = 0; ia < 24; ia++, candence += 7)
 	{
-		path.push_back(i);
+		for (int ib = 0; ib < 24; ib++, neighborhood_size += 7)
+		{
+
+
+
+			ATSPSolver solver;
+			std::list<Solution> tabu_list;
+			srand(time(NULL));
+			NeighborLocator * locator = new KSwap();
+			StopCondition stop_condition = StopCondition(200, 0);
+
+			// initial solution
+			std::vector<int> path;
+			for (int i = 0; i < 48; i++)
+			{
+				path.push_back(i);
+			}
+			path.push_back(0);
+			Solution solution = Solution(path);
+			Solution best_candidate = solution;
+
+			while (!stop_condition.check()) {
+				// find best neighbor
+				int n = neighborhood_size;
+				std::list<Solution> neighbors = locator->getNeighbors(best_candidate, n);
+				int best_candidate_value = INT_MAX;
+				for (Solution candidate : neighbors)
+				{
+					int val = candidate.get_value(problem);
+					if (val < best_candidate_value
+						&& std::find(tabu_list.begin(), tabu_list.end(), candidate) == tabu_list.end())
+					{
+						best_candidate_value = val;
+						best_candidate = candidate;
+					}
+				}
+
+				// add best neighbor to tabu list
+				tabu_list.push_back(best_candidate);
+				if (tabu_list.size() > candence)
+					tabu_list.pop_front();
+				// check if best candidate is better than best solution
+				if (best_candidate_value < solution.get_value(problem))
+					solution = best_candidate;
+			}
+			//std::cout << "Best solution: " << solution.get_value(problem);
+			if (solution.get_value(problem) < best_value_overall)
+			{
+				best_value_overall = solution.get_value(problem);
+				best_candence = candence;
+				best_neighborhood_size = neighborhood_size;
+			}
+			// clean up
+			delete locator;
+		}
 	}
-	path.push_back(0);
-	Solution solution = Solution(path);
-	//Solution best_solution = solution;
-	//// find solution
-	TestNeighborLocator locator;
-	//std::list<Solution> tabu_list;
-	//tabu_list.push_back(solution); 
-	//BestNeighborFinder neigbor_finder;
-	//// tabu search
-	//for (size_t i = 0; i < 10; i++)
-	//{
-	//	// current solution is tabu
-	//	// get neighbor solution and print
-	//	std::list<Solution> neighbors = locator.getNeighbors(solution, 10);
-	//	for (Solution sol : neighbors)
-	//	{
-	//		std::cout << sol.get_value(problem) << std::endl;
-	//		std::vector<int> path = sol.get_path();
-	//		for (int i = 0; i < 10; i++)
-	//		{
-	//			std::cout << path[i] << " -> ";
-	//		}
-	//		std::cout << std::endl;
-	//	}
-	//	// find best neigbor
-	//	Solution best_neighbor = neigbor_finder.find(problem, neighbors, tabu_list);
-	//	// if best neighbor is better than best found, replace best found
-	//	if (best_neighbor.get_value(problem) < solution.get_value(problem))
-	//		best_solution = best_neighbor;
-	//	// best neighbor is new solution, add to tabu list
-	//	solution = best_neighbor;
-	//	tabu_list.push_back(solution);
-	//	// print best neighbor/ current solution
-	//	std::vector<int> bn_path = best_neighbor.get_path();
-	//	std::cout << "\n\nBest neighbor " << best_neighbor.get_value(problem);
-	//	for (auto it = bn_path.begin(); it != bn_path.begin() + 10; ++it)
-	//	{
-	//		std::cout << *it << " <- ";
-	//	}
-	//}
-	solution = solver.tabu_search(problem, solution, &locator, 10, 20, 3000, 0);
-	int val = solution.get_value(problem);
-	//time_measurement();
-	menu_loop(problem);
+	std::cout << "Best cadence: " << best_candence << "\nBest neighborhood size: " << best_neighborhood_size;
+	//menu_loop(problem);
 	return 0;
 }
 

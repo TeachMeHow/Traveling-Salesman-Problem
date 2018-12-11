@@ -118,6 +118,7 @@
     <ClCompile Include="ATSP.cpp" />
     <ClCompile Include="ATSPSolver.cpp" />
     <ClCompile Include="BestNeighborFinder.cpp" />
+    <ClCompile Include="KSwap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="performance.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="ATSP.h" />
     <ClInclude Include="ATSPSolver.h" />
     <ClInclude Include="BestNeighborFinder.h" />
+    <ClInclude Include="KSwap.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="NeighborLocator.h" />
     <ClInclude Include="Performance.h" />

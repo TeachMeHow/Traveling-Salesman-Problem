@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\NeighborLocators">
+      <UniqueIdentifier>{7326cda1-418a-4173-acf7-0d4316e97c3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ATSP.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="BestNeighborFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KSwap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ATSP.h">
@@ -59,16 +65,19 @@
     <ClInclude Include="Solution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NeighborLocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TestNeighborLocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StopCondition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BestNeighborFinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestNeighborLocator.h">
+      <Filter>Header Files\NeighborLocators</Filter>
+    </ClInclude>
+    <ClInclude Include="NeighborLocator.h">
+      <Filter>Header Files\NeighborLocators</Filter>
+    </ClInclude>
+    <ClInclude Include="KSwap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

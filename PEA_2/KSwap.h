@@ -1,12 +1,11 @@
 #pragma once
 #include "NeighborLocator.h"
-#include <vector>
-class TestNeighborLocator :
+class KSwap :
 	public NeighborLocator
 {
 public:
-	TestNeighborLocator() { };
-	~TestNeighborLocator() { };
+	KSwap();
+	~KSwap();
 	std::list<Solution> getNeighbors(const Solution& solution, int n);
 };
 
