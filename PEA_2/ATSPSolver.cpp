@@ -22,6 +22,7 @@ Solution ATSPSolver::tabu_search(ATSP & atsp,
 	int iteration_limit)
 {
 	Solution best_solution = starting_solution;
+	int best_value = best_solution.get_value(atsp);
 	Solution current_solution = best_solution;
 	std::list<Solution> tabu_list;
 	std::list<Solution> neighbor_solutions;
@@ -30,15 +31,25 @@ Solution ATSPSolver::tabu_search(ATSP & atsp,
 
 	while (!condition.check())
 	{
-		neighbor_solutions = locator->getNeighbors(current_solution, tabu_list_size);
-		// find best solution
-		current_solution = finder.find(atsp, neighbor_solutions, tabu_list);
+		neighbor_solutions = locator->getNeighbors(current_solution, neighborhood_size);
+		int value = current_solution.get_value(atsp);
+		for (Solution candidate : neighbor_solutions)
+		{
+			int candidate_value = candidate.get_value(atsp);
+			if (candidate_value < value && std::find(tabu_list.begin(), tabu_list.end(), candidate) == tabu_list.end())
+			{
+				value = candidate_value;
+				current_solution = candidate;
+			}
+		}
 		tabu_list.push_back(current_solution);
-		if (tabu_list.size() > tabu_list_size) 
+		if (tabu_list.size() > tabu_list_size)
 			tabu_list.pop_front();
-
-		if (current_solution.get_value(atsp) < best_solution.get_value(atsp))
+		if (value < best_value)
+		{
+			best_value = value;
 			best_solution = current_solution;
+		}
 	}
 	
 	return best_solution;

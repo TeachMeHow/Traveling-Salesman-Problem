@@ -78,7 +78,7 @@
       <Filter>Header Files\NeighborLocators</Filter>
     </ClInclude>
     <ClInclude Include="KSwap.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\NeighborLocators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

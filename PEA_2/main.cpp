@@ -19,44 +19,45 @@ int main() {
 	ATSP problem;
 	problem.read_file("ftv47.atsp");
 	ATSPSolver solver;
-	std::list<Solution> tabu_list;
 	srand(time(NULL));
+
 	NeighborLocator * locator = new KSwap();
-	StopCondition stop_condition = StopCondition(200, 0);
 
-	// initial solution
-	std::vector<int> path;
-	for (int i = 0; i < 48; i++)
+	Solution initial_solution;
+	std::vector<int> initial_solution_path = std::vector<int>();
+	for (int v = 0; v < problem.get_size(); v++)
 	{
-		path.push_back(i);
+		initial_solution_path.push_back(v);
 	}
-	path.push_back(0);
-	Solution solution = Solution(path);
-	Solution best_candidate = solution;
+	initial_solution_path.push_back(0);
+	initial_solution = Solution(initial_solution_path);
+	int cadence = 20;
+	int neighborhood_size = 20;
+	int time_limit_ms = 20 * 1000;
+	int iteration_limit = 0;
 
-	while (!stop_condition.check()) {
-		// find best neighbor
-		std::list<Solution> neighbors = locator->getNeighbors(best_candidate, 20);
-		int best_candidate_value = INT_MAX;
-		for (Solution candidate : neighbors)
-		{
-			int val = candidate.get_value(problem);
-			if (val < best_candidate_value
-				&& std::find(tabu_list.begin(), tabu_list.end(), candidate) == tabu_list.end())
+	int best_cadence = 0;
+	int best_ns = 0;
+	int best_solution = INT_MAX;
+	/*for (int i = 106 - 20; i < 106 + 20; i += 40 / 12)
+	{
+		for (int j = 154 - 20; j < 154 + 40; j += 40 / 12)
+		{*/
+			cadence = 50;
+			neighborhood_size = 50;
+			int solution = solver.tabu_search(problem, initial_solution, locator, cadence, neighborhood_size, time_limit_ms, iteration_limit).get_value(problem);
+			if (solution < best_solution)
 			{
-				best_candidate_value = val;
-				best_candidate = candidate;
+				best_solution = solution;
+				best_cadence = cadence;
+				best_ns = neighborhood_size;
 			}
-		}
+	//	}
+	//}
 
-		// add best neighbor to tabu list
-		tabu_list.push_back(best_candidate);
-		if (tabu_list.size() > 20)
-			tabu_list.pop_front();
-		// check if best candidate is better than best solution
-		if (best_candidate_value < solution.get_value(problem))
-			solution = best_candidate;
-	}
+	std::cout << "Best Cadence: " << best_cadence << "\nBest NS: " << best_ns << "\nBest solution: " << best_solution;
+			std::cout << "Best solution: " << best_solution;
+	std::cin.ignore();
 	// clean up
 	delete locator;
 	//menu_loop(problem);

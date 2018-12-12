@@ -25,7 +25,10 @@ std::list<Solution> KSwap::getNeighbors(const Solution & solution, int n)
 
 	// get n candidates
 	int pos_1, pos_2;
-	while (n-- > 0)
+	for (int i = 0; i < n; i++)
+	{
+
+	}
 	{
 		// find positions
 		pos_1 = rand() % last_swappable_position + first_swappable_position;
